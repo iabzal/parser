@@ -1,0 +1,30 @@
+database:
+  driver: "postgres"
+  host: ""
+  user: "mailer"
+  password: "mailer"
+  name: "mail"
+  SSLMode: "disable"
+
+server:
+  port: ":7001"
+
+smtp:
+  host: ""
+  username: ""
+  password: ""
+  port:
+
+daemon:
+  amwayIntervalDay: 1
+  amwayIntervalTime: "20:06"
+  sendInterval: 5
+  basicAuthUsername: "amway_daily_mailer"
+  basicAuthPassword: "123456"
+  url: "http://.../v1/ms/report-for-amway"
+
+amway:
+  subject: "Отчет о доставке AsiaFreight за"
+  text: "Во вложении отчет"
+  recipient: ["Alexander.Lebedev@amway.com", "g_fomin@afr.kz", "elena_m_morozova@accessbusinessgroup.com", "maxim.mylnikov@accessbusinessgroup.com", "julia_gordeeva@accessbusinessgroup.com"]
+  filepath: "docs/amway_reports/Отчет о доставке AsiaFreight"

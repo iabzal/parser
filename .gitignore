@@ -1,0 +1,5 @@
+.idea/
+vendor/
+config.yaml
+error.log
+docs/amway_reports/
