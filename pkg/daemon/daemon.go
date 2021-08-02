@@ -1,42 +1,41 @@
 package daemon
 
 import (
-	"github.com/iabzal/parser/config"
 	"github.com/go-co-op/gocron"
+	"github.com/iabzal/parser/config"
 	"time"
 )
 
 type daemon struct {
-	c  config.DaemonConfiguration
-	a  config.ParseConfiguration
+	c   config.DaemonConfiguration
+	p   config.ParseConfiguration
 	tws *gocron.Scheduler
 	ths *gocron.Scheduler
-	hs *gocron.Scheduler
+	hs  *gocron.Scheduler
 }
 
-func NewDaemon(configuration config.DaemonConfiguration, parseConfig config.ParseConfiguration) MailerDaemon {
-	return &daemon{configuration,parseConfig, gocron.NewScheduler(time.Local), gocron.NewScheduler(time.Local), gocron.NewScheduler(time.Local)}
+func NewDaemon(configuration config.DaemonConfiguration, parseConfig config.ParseConfiguration) ParserDaemon {
+	return &daemon{configuration, parseConfig, gocron.NewScheduler(time.Local), gocron.NewScheduler(time.Local), gocron.NewScheduler(time.Local)}
 }
 
-type MailerDaemon interface {
+type ParserDaemon interface {
 	Start()
 	Stop()
-	GetRequestForAmwayReport() error
 }
 
 func (d *daemon) Start() {
 	go func() {
-		d.tws.Every(uint64(d.c.SendInterval)).Minutes().Do(searchTwoRoom)
+		d.tws.Every(uint64(d.c.SendInterval)).Minutes().Do(d.searchTwoRoom)
 		<-d.tws.StartAsync()
 	}()
 
 	go func() {
-		d.ths.Every(uint64(d.c.SendInterval)).Minutes().Do(searchThreeRoom)
+		d.ths.Every(uint64(d.c.SendInterval)).Minutes().Do(d.searchThreeRoom)
 		<-d.ths.StartAsync()
 	}()
 
 	go func() {
-		d.hs.Every(uint64(d.c.SendInterval)).Minutes().Do(searchHome)
+		d.hs.Every(uint64(d.c.SendInterval)).Minutes().Do(d.searchHome)
 		<-d.hs.StartAsync()
 	}()
 }
@@ -47,16 +46,15 @@ func (d *daemon) Stop() {
 	d.hs.Clear()
 }
 
-func searchTwoRoom()  {
+func (d *daemon) searchTwoRoom() {
+	SearchTwoRoom(d.p.UrlTwoRoom)
+}
+
+func (d *daemon) searchThreeRoom() {
+	SearchThreeRoom(d.p.UrlThreeRoom)
 
 }
 
-
-func searchThreeRoom()  {
-
-}
-
-
-func searchHome()  {
-
+func (d *daemon) searchHome() {
+	SearchHome(d.p.UrlHome)
 }

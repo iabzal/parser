@@ -3,20 +3,20 @@ package daemon
 import (
 	"bufio"
 	"fmt"
-	"github.com/iabzal/parser/config"
+	"github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/gocolly/colly"
 	"io/ioutil"
 	"os"
 	"strings"
-	"github.com/gocolly/colly"
 )
 
 const (
-	home = 1
-	twoRoom = 2
+	home      = 1
+	twoRoom   = 2
 	threeRoom = 3
 )
 
-func SearchTwoRoom(c config.Configuration) {
+func SearchTwoRoom(url string) {
 	m := make(map[int]string)
 	index := 0
 	collector := colly.NewCollector()
@@ -24,7 +24,7 @@ func SearchTwoRoom(c config.Configuration) {
 		m[index] = e.ChildAttr("a.a-card__image", "href")
 		index++
 	})
-	_ = collector.Visit(c.Parse.UrlTwoRoom)
+	_ = collector.Visit(url)
 	oldUrl := readFile(twoRoom)
 	fmt.Println(strings.Trim(oldUrl, "\n"))
 	fmt.Println(m[0])
@@ -34,7 +34,7 @@ func SearchTwoRoom(c config.Configuration) {
 	}
 }
 
-func SearchThreeRoom(c config.Configuration) {
+func SearchThreeRoom(url string) {
 	m := make(map[int]string)
 	index := 0
 	collector := colly.NewCollector()
@@ -42,7 +42,7 @@ func SearchThreeRoom(c config.Configuration) {
 		m[index] = e.ChildAttr("a.a-card__image", "href")
 		index++
 	})
-	_ = collector.Visit(c.Parse.UrlThreeRoom)
+	_ = collector.Visit(url)
 	oldUrl := readFile(threeRoom)
 	fmt.Println(strings.Trim(oldUrl, "\n"))
 	fmt.Println(m[0])
@@ -52,7 +52,7 @@ func SearchThreeRoom(c config.Configuration) {
 	}
 }
 
-func SearchHome(c config.Configuration) {
+func SearchHome(url string) {
 	m := make(map[int]string)
 	index := 0
 	collector := colly.NewCollector()
@@ -60,7 +60,7 @@ func SearchHome(c config.Configuration) {
 		m[index] = e.ChildAttr("a.a-card__image", "href")
 		index++
 	})
-	_ = collector.Visit(c.Parse.UrlHome)
+	_ = collector.Visit(url)
 	oldUrl := readFile(home)
 	fmt.Println(strings.Trim(oldUrl, "\n"))
 	fmt.Println(m[0])
@@ -80,7 +80,7 @@ func readFile(urlType int) string {
 	}
 
 	//b, err := ioutil.ReadFile("/var/www/microservices/parser/"+ urlFile +".txt")
-	b, err := ioutil.ReadFile("./"+ urlFile +".txt")
+	b, err := ioutil.ReadFile("./" + urlFile + ".txt")
 	check(err)
 	return string(b)
 }
@@ -94,7 +94,7 @@ func writeFile(url string, urlType int) {
 		urlFile = "url_three"
 	}
 	//f, err := os.Create("/var/www/microservices/parser/"+ urlFile +".txt")
-	f, err := os.Create("./"+ urlFile +".txt")
+	f, err := os.Create("./" + urlFile + ".txt")
 	check(err)
 	defer f.Close()
 
