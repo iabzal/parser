@@ -1,30 +1,7 @@
-database:
-  driver: "postgres"
-  host: ""
-  user: "mailer"
-  password: "mailer"
-  name: "mail"
-  SSLMode: "disable"
-
-server:
-  port: ":7001"
-
-smtp:
-  host: ""
-  username: ""
-  password: ""
-  port:
-
 daemon:
-  amwayIntervalDay: 1
-  amwayIntervalTime: "20:06"
-  sendInterval: 5
-  basicAuthUsername: "amway_daily_mailer"
-  basicAuthPassword: "123456"
-  url: "http://.../v1/ms/report-for-amway"
+  sendInterval: 2
 
-amway:
-  subject: "Отчет о доставке AsiaFreight за"
-  text: "Во вложении отчет"
-  recipient: ["Alexander.Lebedev@amway.com", "g_fomin@afr.kz", "elena_m_morozova@accessbusinessgroup.com", "maxim.mylnikov@accessbusinessgroup.com", "julia_gordeeva@accessbusinessgroup.com"]
-  filepath: "docs/amway_reports/Отчет о доставке AsiaFreight"
+parse:
+  urlTwoRoom: "https://krisha.kz/prodazha/kvartiry/almaty/?das[_sys.hasphoto]=1&das[flat.building][]=1&das[flat.building][]=3&das[flat.priv_dorm]=2&das[floor_not_first]=1&das[floor_not_last]=1&das[house.year][from]=1980&das[live.rooms]=2&das[live.square][from]=52&das[mortgage]=0&das[price][from]=20000000&das[price][to]=27000000&das[who]=1"
+  urlThreeRoom: "https://krisha.kz/prodazha/kvartiry/almaty/?das[_sys.hasphoto]=1&das[flat.building][]=1&das[flat.building][]=3&das[flat.priv_dorm]=2&das[floor_not_first]=1&das[floor_not_last]=1&das[house.year][from]=1980&das[live.rooms]=3&das[live.square][from]=60&das[mortgage]=0&das[price][from]=23000000&das[price][to]=28000000&das[who]=1"
+  urlHome: "https://krisha.kz/prodazha/doma/almaty/?das[_sys.hasphoto]=1&das[cmtn.heating]=2&das[house.building]=1&das[house.year][from]=1980&das[land.square][from]=4&das[live.rooms][]=3&das[live.rooms][]=4&das[live.rooms][]=5&das[mortgage]=0&das[price][from]=16000000&das[price][to]=28000000&das[who]=1"
